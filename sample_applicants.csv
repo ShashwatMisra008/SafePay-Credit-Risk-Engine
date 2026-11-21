@@ -1,0 +1,5 @@
+age,annual_income_lakhs,loan_amount_lakhs,credit_score,credit_utilization_pct,late_payments_12m,inquiries_6m,employment_type,city_tier
+34,18.5,3.0,795,18.0,0,0,Salaried,Tier-1
+26,5.2,4.5,560,88.0,3,4,Freelancer,Tier-3
+41,11.0,4.2,690,52.0,1,1,Self-Employed,Tier-2
+29,9.5,2.0,745,24.0,0,1,Salaried,Tier-2
