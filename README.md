@@ -1,74 +1,72 @@
-# 🏦 SafePay Bank — End-to-End Credit Default & Risk Scoring Engine
+# 🏦 SafePay Bank — Global Credit Risk & Automated Underwriting Engine
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Pipeline%20%7C%20ColumnTransformer-orange)
-![XGBoost](https://img.shields.io/badge/XGBoost-LightGBM-brightgreen)
-![Explainability](https://img.shields.io/badge/Explainable%20AI-SHAP-purple)
-![Streamlit](https://img.shields.io/badge/App-Streamlit%20Cloud-red)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://safepay-credit-risk-engine-shashwat-misra.streamlit.app/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Leak--Free%20Pipeline-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
+[![XGBoost](https://img.shields.io/badge/Model-XGBoost%20%7C%20GBDT-10B981)](https://xgboost.readthedocs.io/)
+[![Explainability](https://img.shields.io/badge/Explainable%20AI-SHAP-8B5CF6)](https://shap.readthedocs.io/)
+
+> ### 🚀 [**Launch Live Interactive Dashboard → SafePay Credit Risk Engine**](https://safepay-credit-risk-engine-shashwat-misra.streamlit.app/)
+> *Click the badge or link above to test real-time borrower underwriting, simulate Net Portfolio Profit across 12,000 accounts, inspect SHAP waterfall explanations, and score custom CSV batches directly in your browser.*
+
+---
 
 ## 📌 Executive Summary
-**SafePay Bank** processes personal credit lines and BNPL (Buy Now, Pay Later) accounts across India. With a **~23.7% baseline default rate**, approving high-risk borrowers causes severe principal write-offs (`-₹65,000` per default), while overly conservative rules reject profitable, low-risk customers (`+₹12,000` net interest per good loan).
+**SafePay Bank** manages personal credit lines, BNPL (Buy Now, Pay Later), and MSME working capital accounts across **India, UAE, Singapore, and the UK**. Approving high-risk borrowers creates severe principal write-offs (`-₹65,000` per default), while overly rigid credit rules reject profitable borrowers (`+₹12,000` net interest per repaid loan).
 
-This repository contains a **leakage-free, explainable machine learning pipeline** and an interactive **Streamlit Underwriting Web App** (`app.py`) that benchmarks linear, bagging, and gradient-boosted ensembles, optimizes the classification decision threshold directly against a **financial cost-benefit matrix**, and exports a serialized `.joblib` inference artifact.
+This repository delivers an **end-to-end, leakage-free machine learning pipeline** and a **4-tab Dark FinTech Streamlit Command Center (`app.py`)** built for **CXOs, Risk Department Heads, and Underwriting Officers**.
 
 ---
 
-## 🏗️ End-to-End ML Architecture
+## 🖥️ Interactive Dashboard Modules (`app.py`)
+
+| Dashboard Tab | Target Audience | Live Capabilities |
+| :--- | :--- | :--- |
+| **🏛️ 1. Executive Command Center** | **CEO / Chief Risk Officer** | Real-time KPIs (`Net Portfolio Profit ₹ Cr`, `Loss Prevented`, `Approval Rate`, `Recall`, `Disbursed Volume`), Profit Optimization Curve, Product-Line Profit Bar Chart, City-Wise Risk Breakdown, and Underwriting Outcome Donut across **12,000 accounts**. |
+| **🔬 2. Department & Column Analytics** | **Risk & Credit Dept. Heads** | Interactive column-by-column analyzer across **15 raw & auto-derived features**, Decile Default-Escalation Curves, Acquisition Channel comparison, Customer Segment profitability, and State × Product risk heatmaps. |
+| **🎯 3. Live Underwriting & SHAP** | **Underwriting & Compliance** | Instant borrower scoring across 12 global cities & 5 product lines, live calculation of 8 financial ratios, Plotly Risk Speedometer Gauge, and regulatory **SHAP Waterfall** feature attributions. |
+| **📂 4. 12k Portfolio & Batch Scoring** | **Operations & Analytics** | Filterable 12,000-account enterprise portfolio explorer + drag-and-drop CSV batch scoring with one-click scored CSV export. |
+
+---
+
+## ⚙️ Automated Feature Engineering (8 Derived Risk Indicators)
+Raw applicant inputs are automatically transformed inside `engineer_features()` into 8 interdependent financial and behavioral risk signals:
+
+1. **`debt_to_income_ratio`:** Requested Loan Amount ÷ Annual Income (`x` multiple).
+2. **`estimated_emi_k`:** Product-aware monthly EMI (₹ Thousands) computed using product-specific APRs over a 24-month tenure.
+3. **`emi_to_income_pct` (FOIR):** Fixed Obligation to Income Ratio (`Monthly EMI ÷ Monthly Income %`).
+4. **`net_disposable_lakhs`:** Annual post-debt disposable income (`₹ Lakhs`).
+5. **`delinquency_utilization_idx`:** Non-linear interaction of `(Late Payments + 1) × Utilization Rate`.
+6. **`credit_headroom_pct`:** Available unutilized revolving credit buffer (`100% - Utilization %`).
+7. **`inquiry_velocity_idx`:** Hard credit inquiries normalized per credit-active decade.
+8. **`customer_segment` & `risk_tier`:** Automated segmentation into *Affluent Prime*, *Mass Salaried Retail*, *MSME & Self-Employed*, and *Emerging / High-Beta* cohorts.
+
+---
+
+## 🏗️ End-to-End ML Architecture & Unit Economics
 
 ```text
-Raw Borrower Data (5,000 Applicants)
+Enterprise Borrower Portfolio (12,000 Accounts • 12 Cities • 5 Products)
        │
        ▼
-1. Statistical Audit & Feature Engineering
-   ├── Variance Inflation Factor (VIF) Audit ──► Dropped redundant `monthly_income_k` (VIF > 1000)
-   └── Domain Ratios ──► `debt_to_income_ratio` & `delinquency_utilization_idx`
+1. Statistical Governance & Feature Engineering
+   ├── Multicollinearity Audit (VIF) ──► Eliminated redundant `monthly_income_k` (VIF > 1000)
+   └── Automated Ratios ──► DTI, FOIR %, Disposable Income, Delinquency-Utilization Index
        │
        ▼
-2. Leak-Free Preprocessing (`ColumnTransformer`)
-   ├── Numeric Features ──► `StandardScaler` (fit strictly on training folds)
-   └── Categorical Features ──► `OneHotEncoder(drop="first")`
+2. Leakage-Free Preprocessing (`ColumnTransformer`)
+   ├── Numeric Features ──► `StandardScaler` (fit strictly inside training folds)
+   └── Categorical Features ──► `OneHotEncoder(drop="first", handle_unknown="ignore")`
        │
        ▼
-3. Multi-Model Benchmarking & Hyperparameter Tuning (`StratifiedKFold`, k=5)
-   ├── Baseline: L2 Logistic Regression (`class_weight="balanced"`)
-   ├── Bagging: Random Forest + `SMOTE` (`imblearn.pipeline.Pipeline`)
-   └── Boosting: Cost-Sensitive `XGBoost` & `LightGBM` tuned via `RandomizedSearchCV` (PR-AUC)
+3. Imbalanced Classification & Cross-Validation (`StratifiedKFold`, k=5)
+   ├── Benchmarked L2 Logistic Regression, Random Forest + SMOTE (`ImbPipeline`), XGBoost & LightGBM
+   └── Optimized for Precision-Recall AUC (`average_precision`) & ROC-AUC
        │
        ▼
-4. Financial Profit-Maximizing Threshold Optimization
-   └── Replaces default `0.50` probability cutoff with Net Profit optimal threshold
+4. Financial Cost-Matrix Threshold Optimization
+   └── Maximizes Net Bank Profit:  Net Profit = (TN × ₹12,000) - (FP × ₹4,000) - (FN × ₹65,000)
        │
        ▼
-5. Regulatory Explainability (SHAP) & Deployment
-   ├── Global `shap.summary_plot` + Borrower-level `shap.plots.waterfall`
-   └── Serialized artifact (`safepay_credit_risk_engine_v1.joblib`) powering `app.py`
-```
-
----
-
-## 💰 Business Cost-Benefit Threshold Optimization
-Decisions are calibrated to maximize **Net Bank Profit (₹ Lakhs)**:
-
-| Prediction Outcome | Business Meaning | Financial Impact (INR) |
-| :--- | :--- | :---: |
-| **True Negative (TN)** | Approve good borrower who repays | **+₹12,000** |
-| **False Positive (FP)** | Reject good borrower (lost interest) | **-₹4,000** |
-| **False Negative (FN)** | Approve defaulter (principal write-off) | **-₹65,000** |
-| **True Positive (TP)** | Flag & reject high-risk defaulter | **₹0** |
-
----
-
-## 📂 Repository Structure
-* `End_to_End_Supervised_ML_Capstone_SafePay_Bank.ipynb` — Complete Jupyter/Colab notebook with EDA, VIF audit, model benchmarking, profit optimization, and SHAP analysis.
-* `app.py` — Interactive Streamlit Underwriting & Batch Scoring Web Application.
-* `safepay_credit_risk_engine_v1.joblib` — Serialized production pipeline, optimal profit threshold, and validation telemetry.
-* `sample_applicants.csv` — Sample borrower dataset for testing batch CSV scoring in the Streamlit UI.
-* `requirements.txt` — Python dependencies for Streamlit Cloud deployment.
-
----
-
-## 🚀 How to Run Locally or on Streamlit Cloud
-```bash
-pip install -r requirements.txt
-streamlit run app.py
-```
+5. Regulatory Explainability (SHAP) & Streamlit Cloud Deployment
+   └── `shap.TreeExplainer` Waterfall Attributions + Live Policy Simulator (`app.py`)
