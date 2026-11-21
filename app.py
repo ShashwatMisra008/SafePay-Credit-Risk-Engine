@@ -296,7 +296,6 @@ def generate_portfolio_dataset(n_samples: int = 12000, seed: int = 42) -> pd.Dat
         p=[0.40, 0.25, 0.20, 0.15]
     )
 
-    # Income scales with geography, city tier, and age
     country_mult = np.where(np.array(countries) == "India", 1.0, 1.85)
     tier_mult = np.where(np.array(city_tiers) == "Tier-1", 1.15, 0.90)
     age_mult = 1.0 + np.clip((age - 25) * 0.012, 0.0, 0.45)
@@ -310,7 +309,6 @@ def generate_portfolio_dataset(n_samples: int = 12000, seed: int = 42) -> pd.Dat
     late_payments_12m = rng.poisson(0.70, n_samples)
     inquiries_6m = rng.poisson(1.12, n_samples)
 
-    # Realistic risk effects by segment, product, channel, and geography
     dti = loan_amount_lakhs / (annual_income_lakhs + 0.1)
     emp_risk = np.where(employment_type == "Freelancer", 0.52, np.where(employment_type == "Self-Employed", 0.22, 0.0))
     prod_risk = np.where(
@@ -356,7 +354,6 @@ def generate_portfolio_dataset(n_samples: int = 12000, seed: int = 42) -> pd.Dat
     })
     df = engineer_features(df)
 
-    # Automated Customer Segment classification
     df["customer_segment"] = np.select(
         [
             (df["annual_income_lakhs"] >= 18.0) & (df["credit_score"] >= 740),
@@ -673,7 +670,6 @@ with tab1:
     e4.metric("Default Capture (Recall)", f"{default_capture_rate:.1f}%", delta=f"Precision: {prec_pct:.1f}%")
     e5.metric("Approved Disbursal Vol.", f"₹{disbursed_cr:.2f} Cr", delta=f"Avg DTI: {avg_dti:.2f}x")
 
-    # Row 2: Live Profit Curve + Product-Line Net Profit & Risk
     col_p1, col_p2 = st.columns([1.25, 1.15], gap="medium")
 
     with col_p1:
@@ -717,7 +713,6 @@ with tab1:
             fig_prod.update_yaxes(title="")
             st.plotly_chart(apply_dark_plotly(fig_prod, 320), use_container_width=True)
 
-    # Row 3: City/State Live Performance + Underwriting Outcome Donut
     col_b1, col_b2 = st.columns([1.35, 1.0], gap="medium")
 
     with col_b1:
@@ -994,23 +989,26 @@ with tab3:
 
     with s_col:
         with st.container(border=True):
-            prep_step = pipeline.named_steps["prep"]
-            clf_step = pipeline.named_steps["clf"]
+            try:
+                prep_step = pipeline.named_steps["prep"]
+                clf_step = pipeline.named_steps["clf"]
 
-            num_cols = processed_input[MODEL_BASE_COLS].select_dtypes(include=[np.number]).columns.tolist()
-            cat_cols = ["employment_type", "city_tier", "product_line", "acquisition_channel", "country"]
-            encoded_cats = prep_step.named_transformers_["cat"].get_feature_names_out(cat_cols).tolist()
-            feature_names = num_cols + encoded_cats
+                feature_names = [name.split("__", 1)[-1] for name in prep_step.get_feature_names_out()]
+                transformed_matrix = prep_step.transform(processed_input[MODEL_BASE_COLS])
+                if hasattr(transformed_matrix, "toarray"):
+                    transformed_matrix = transformed_matrix.toarray()
 
-            transformed_row = pd.DataFrame(prep_step.transform(processed_input[MODEL_BASE_COLS]), columns=feature_names)
-            explainer = shap.TreeExplainer(clf_step)
-            shap_exp = explainer(transformed_row)
+                transformed_row = pd.DataFrame(transformed_matrix, columns=feature_names)
+                explainer = shap.TreeExplainer(clf_step)
+                shap_exp = explainer(transformed_row)
 
-            fig, ax = plt.subplots(figsize=(7.5, 3.6))
-            shap.plots.waterfall(shap_exp[0], show=False)
-            style_shap_dark(fig)
-            plt.tight_layout()
-            st.pyplot(fig)
+                fig, ax = plt.subplots(figsize=(7.5, 3.6))
+                shap.plots.waterfall(shap_exp[0], show=False)
+                style_shap_dark(fig)
+                plt.tight_layout()
+                st.pyplot(fig)
+            except Exception as shap_err:
+                st.warning(f"SHAP waterfall preview unavailable for this configuration: {shap_err}")
 
 
 # =============================================================================
