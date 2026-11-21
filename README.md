@@ -1,10 +1,14 @@
-# 🏦 SafePay Bank — End-to-End Credit Default & Risk Scoring Engine
+### 🏦 SafePay Bank — Global Credit Risk & Automated Underwriting Engine
+[![Live App](https://img.shields.io/badge/Live_Demo-Streamlit_Cloud-10B981?style=for-the-badge&logo=streamlit&logoColor=white)](https://safepay-credit-risk-engine-shashwat-misra.streamlit.app/)
+[![GitHub Repo](https://img.shields.io/badge/Source_Code-GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ShashwatMisra008/SafePay-Credit-Risk-Engine)
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Pipeline%20%7C%20ColumnTransformer-orange)
-![XGBoost](https://img.shields.io/badge/XGBoost-LightGBM-brightgreen)
-![Explainability](https://img.shields.io/badge/Explainable%20AI-SHAP-purple)
-![Streamlit](https://img.shields.io/badge/App-Streamlit%20Cloud-red)
+An end-to-end supervised Machine Learning pipeline and 4-tab Dark FinTech Streamlit Command Center built for CXOs, Risk Department Heads, and Underwriting Officers across **12,000+ global borrower accounts** (India, UAE, Singapore, UK).
+
+* **Automated Feature Engineering:** Dynamically computes **8 interdependent financial & behavioral risk ratios** (`debt_to_income_ratio`, `emi_to_income_pct` / FOIR, `net_disposable_lakhs`, `delinquency_utilization_idx`, `credit_headroom_pct`, `inquiry_velocity_idx`, and automated `risk_tier` segmentation).
+* **Leakage-Free ML & Cost-Matrix Calibration:** Eliminates multicollinearity via VIF governance, encapsulates `ColumnTransformer` + `SMOTE` / cost-sensitive XGBoost & LightGBM pipelines, and optimizes decision thresholds directly against bank unit economics (`+₹12,000` repaid profit vs. `-₹65,000` default write-off).
+* **Regulatory Explainability & Live Simulation:** Features an interactive Policy Threshold Simulator, Plotly Risk Speedometer Gauge, borrower-level **SHAP Waterfall** attributions, and batch CSV scoring.
+
+**Tech Stack:** `Python` • `Scikit-Learn` • `XGBoost` • `LightGBM` • `Imbalanced-Learn (SMOTE)` • `SHAP` • `Plotly` • `Streamlit`
 
 ## 📌 Executive Summary
 **SafePay Bank** processes personal credit lines and BNPL (Buy Now, Pay Later) accounts across India. With a **~23.7% baseline default rate**, approving high-risk borrowers causes severe principal write-offs (`-₹65,000` per default), while overly conservative rules reject profitable, low-risk customers (`+₹12,000` net interest per good loan).
