@@ -1,4 +1,4 @@
-﻿import os
+?import os
 import joblib
 import numpy as np
 import pandas as pd
@@ -27,7 +27,7 @@ except ImportError:
 # -----------------------------------------------------------------------------
 st.set_page_config(
     page_title="SafePay Bank | Global Credit Risk & Underwriting Intelligence",
-    page_icon="ðŸ¦",
+    page_icon="🏦",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -233,7 +233,7 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     # 3. Monthly Income in INR Thousands
     data["monthly_income_k"] = ((data["annual_income_lakhs"] * 100.0) / 12.0).round(2)
 
-    # 4. Product-Aware APR & Estimated Monthly EMI (â‚¹ Thousands, 24-month tenure)
+    # 4. Product-Aware APR & Estimated Monthly EMI (₹ Thousands, 24-month tenure)
     apr_map = {
         "Personal Term Loan": 0.145,
         "BNPL Pay-Later": 0.180,
@@ -252,7 +252,7 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
         (data["estimated_emi_k"] / np.maximum(data["monthly_income_k"], 1.0)) * 100.0
     ).round(1)
 
-    # 6. Net Annual Disposable Income After Debt Service (â‚¹ Lakhs)
+    # 6. Net Annual Disposable Income After Debt Service (₹ Lakhs)
     data["net_disposable_lakhs"] = np.maximum(
         data["annual_income_lakhs"] - ((data["estimated_emi_k"] * 12.0) / 100.0), 0.0
     ).round(2)
@@ -527,11 +527,11 @@ def style_shap_dark(fig):
 # SIDEBAR: GLOBAL POLICY CONTROLS & MULTI-DIMENSION FILTERS
 # -----------------------------------------------------------------------------
 with st.sidebar:
-    st.markdown("### ðŸ¦ SafePay Risk Console")
-    st.caption("Global Credit Intelligence â€¢ 12,000 Accounts")
+    st.markdown("### 🏦 SafePay Risk Console")
+    st.caption("Global Credit Intelligence • 12,000 Accounts")
     st.divider()
 
-    st.markdown("#### âš™ï¸ Decision Policy Threshold")
+    st.markdown("#### ⚙️ Decision Policy Threshold")
     optimal_val = round(float(default_optimal_cutoff), 2)
 
     if "cutoff_slider" not in st.session_state:
@@ -548,10 +548,10 @@ with st.sidebar:
         step=0.01,
         help="Live policy slider: updates all KPIs, Net Profit, and graphs across all tabs."
     )
-    st.button("â†º Reset to Profit-Optimal Cutoff", on_click=reset_cutoff, width="stretch")
+    st.button("↺ Reset to Profit-Optimal Cutoff", on_click=reset_cutoff, width="stretch")
 
     st.divider()
-    st.markdown("#### ðŸŒ Enterprise Slice Filters")
+    st.markdown("#### 🌍 Enterprise Slice Filters")
 
     all_countries = sorted(portfolio_df["country"].unique().tolist())
     sel_countries = st.multiselect("Country", all_countries, default=all_countries)
@@ -572,11 +572,11 @@ with st.sidebar:
         f"""
         <div class="econ-card">
             <div style="color:#34D399;font-weight:700;margin-bottom:4px;">
-                ðŸŽ¯ Optimal Cutoff: <code>{default_optimal_cutoff:.2f}</code>
+                🎯 Optimal Cutoff: <code>{default_optimal_cutoff:.2f}</code>
             </div>
-            <div>â€¢ Repaid Loan (TN): <span style="color:#34D399;font-weight:700;">+â‚¹12,000</span></div>
-            <div>â€¢ Rejected Good (FP): <span style="color:#FBBF24;font-weight:700;">-â‚¹4,000</span></div>
-            <div>â€¢ Approved Default (FN): <span style="color:#F87171;font-weight:700;">-â‚¹65,000</span></div>
+            <div>• Repaid Loan (TN): <span style="color:#34D399;font-weight:700;">+₹12,000</span></div>
+            <div>• Rejected Good (FP): <span style="color:#FBBF24;font-weight:700;">-₹4,000</span></div>
+            <div>• Approved Default (FN): <span style="color:#F87171;font-weight:700;">-₹65,000</span></div>
         </div>
         """,
         unsafe_allow_html=True
@@ -620,17 +620,17 @@ filtered_df["unit_net_profit_inr"] = np.select(
 st.markdown(
     f"""
     <div class="hero-banner">
-        <div class="hero-kicker">SAFEPAY BANK â€¢ GLOBAL EXECUTIVE &amp; DEPARTMENT RISK COMMAND CENTER</div>
-        <div class="hero-title">ðŸ¦ Enterprise Credit Portfolio &amp; Automated Underwriting Suite</div>
+        <div class="hero-kicker">SAFEPAY BANK • GLOBAL EXECUTIVE &amp; DEPARTMENT RISK COMMAND CENTER</div>
+        <div class="hero-title">🏦 Enterprise Credit Portfolio &amp; Automated Underwriting Suite</div>
         <p class="hero-subtitle">
             Live multi-region intelligence across <strong>{len(filtered_df):,} active accounts</strong> (India, UAE, Singapore, UK) with
             <strong>8 automated derived risk indicators</strong>, live policy simulation, and borrower-level SHAP explainability.
         </p>
         <div class="badge-row">
-            <span class="tech-badge">ðŸ“Š {len(filtered_df):,} Live Filtered Accounts</span>
-            <span class="tech-badge">ðŸŒ {filtered_df['city_name'].nunique()} Cities â€¢ {filtered_df['product_line'].nunique()} Products</span>
-            <span class="tech-badge">âš™ï¸ 8 Auto-Derived Financial Ratios</span>
-            <span class="tech-badge">ðŸ’° Net Profit Policy Simulator</span>
+            <span class="tech-badge">📊 {len(filtered_df):,} Live Filtered Accounts</span>
+            <span class="tech-badge">🌍 {filtered_df['city_name'].nunique()} Cities • {filtered_df['product_line'].nunique()} Products</span>
+            <span class="tech-badge">⚙️ 8 Auto-Derived Financial Ratios</span>
+            <span class="tech-badge">💰 Net Profit Policy Simulator</span>
         </div>
     </div>
     """,
@@ -638,10 +638,10 @@ st.markdown(
 )
 
 tab1, tab2, tab3, tab4 = st.tabs([
-    "ðŸ›ï¸ Executive Command Center (CXO View)",
-    "ðŸ”¬ Department & Column Analytics (Dept. Heads)",
-    "ðŸŽ¯ Live Single Applicant Underwriting & SHAP",
-    "ðŸ“‚ 12k Portfolio Explorer & Batch Scoring"
+    "🏛️ Executive Command Center (CXO View)",
+    "🔬 Department & Column Analytics (Dept. Heads)",
+    "🎯 Live Single Applicant Underwriting & SHAP",
+    "📂 12k Portfolio Explorer & Batch Scoring"
 ])
 
 
@@ -664,17 +664,17 @@ with tab1:
 
     st.markdown('<div class="section-heading">1. Live Executive Portfolio KPIs (Updates Dynamically with Policy Slider & Filters)</div>', unsafe_allow_html=True)
     e1, e2, e3, e4, e5 = st.columns(5)
-    e1.metric("Net Portfolio Profit", f"â‚¹{net_profit_cr:.2f} Cr", delta=f"Cutoff: {active_threshold:.2f}")
-    e2.metric("Write-Off Loss Prevented", f"â‚¹{loss_prevented_cr:.2f} Cr", delta=f"{tp:,} Defaults Blocked")
+    e1.metric("Net Portfolio Profit", f"₹{net_profit_cr:.2f} Cr", delta=f"Cutoff: {active_threshold:.2f}")
+    e2.metric("Write-Off Loss Prevented", f"₹{loss_prevented_cr:.2f} Cr", delta=f"{tp:,} Defaults Blocked")
     e3.metric("Loan Approval Rate", f"{approval_rate:.1f}%", delta=f"{tn + fn:,} Approved")
     e4.metric("Default Capture (Recall)", f"{default_capture_rate:.1f}%", delta=f"Precision: {prec_pct:.1f}%")
-    e5.metric("Approved Disbursal Vol.", f"â‚¹{disbursed_cr:.2f} Cr", delta=f"Avg DTI: {avg_dti:.2f}x")
+    e5.metric("Approved Disbursal Vol.", f"₹{disbursed_cr:.2f} Cr", delta=f"Avg DTI: {avg_dti:.2f}x")
 
     col_p1, col_p2 = st.columns([1.25, 1.15], gap="medium")
 
     with col_p1:
         with st.container(border=True):
-            st.markdown("##### ðŸ’° Policy Threshold vs. Net Portfolio Profit (â‚¹ Crores)")
+            st.markdown("##### 💰 Policy Threshold vs. Net Portfolio Profit (₹ Crores)")
             t_grid = np.linspace(0.10, 0.90, 41)
             prof_curve = []
             for t in t_grid:
@@ -684,18 +684,18 @@ with tab1:
 
             fig_prof = go.Figure()
             fig_prof.add_trace(go.Scatter(
-                x=t_grid, y=prof_curve, mode="lines", name="Net Profit (â‚¹ Cr)",
+                x=t_grid, y=prof_curve, mode="lines", name="Net Profit (₹ Cr)",
                 line=dict(color="#10B981", width=3), fill="tozeroy", fillcolor="rgba(16, 185, 129, 0.14)"
             ))
             fig_prof.add_vline(x=active_threshold, line_dash="dash", line_color="#FBBF24",
                                annotation_text=f"Active Cutoff ({active_threshold:.2f})")
             fig_prof.update_xaxes(title="Default Probability Cutoff")
-            fig_prof.update_yaxes(title="Net Profit (â‚¹ Crores)")
+            fig_prof.update_yaxes(title="Net Profit (₹ Crores)")
             st.plotly_chart(apply_dark_plotly(fig_prof, 320), width="stretch")
 
     with col_p2:
         with st.container(border=True):
-            st.markdown("##### ðŸ“¦ Live Net Profit (â‚¹ Lakhs) & Approval % by Product Line")
+            st.markdown("##### 📦 Live Net Profit (₹ Lakhs) & Approval % by Product Line")
             prod_grp = filtered_df.groupby("product_line", as_index=False).agg(
                 Net_Profit_Lakhs=("unit_net_profit_inr", lambda s: round(s.sum() / 1e5, 2)),
                 Approval_Pct=("policy_decision", lambda s: round((s == "Approved").mean() * 100, 1)),
@@ -707,9 +707,9 @@ with tab1:
                 text="Approval_Pct", color="Net_Profit_Lakhs",
                 color_continuous_scale=["#EF4444", "#FBBF24", "#10B981"]
             )
-            fig_prod.update_traces(texttemplate="â‚¹%{x:.1f}L (%{text}% Appr)", textposition="outside")
+            fig_prod.update_traces(texttemplate="₹%{x:.1f}L (%{text}% Appr)", textposition="outside")
             fig_prod.update_layout(coloraxis_showscale=False)
-            fig_prod.update_xaxes(title="Net Profit (â‚¹ Lakhs)")
+            fig_prod.update_xaxes(title="Net Profit (₹ Lakhs)")
             fig_prod.update_yaxes(title="")
             st.plotly_chart(apply_dark_plotly(fig_prod, 320), width="stretch")
 
@@ -717,7 +717,7 @@ with tab1:
 
     with col_b1:
         with st.container(border=True):
-            st.markdown("##### ðŸ™ï¸ Live City-Wise Portfolio Profit (â‚¹ Lakhs) & Default Risk")
+            st.markdown("##### 🏙️ Live City-Wise Portfolio Profit (₹ Lakhs) & Default Risk")
             city_grp = filtered_df.groupby(["city_name", "country"], as_index=False).agg(
                 Accounts=("applicant_id", "count"),
                 Net_Profit_Lakhs=("unit_net_profit_inr", lambda s: round(s.sum() / 1e5, 2)),
@@ -728,14 +728,14 @@ with tab1:
             fig_city = px.bar(
                 city_grp, x="city_name", y="Net_Profit_Lakhs", color="Actual_Default_Pct",
                 text="Accounts", color_continuous_scale=["#10B981", "#F59E0B", "#EF4444"],
-                labels={"city_name": "City", "Net_Profit_Lakhs": "Net Profit (â‚¹ Lakhs)", "Actual_Default_Pct": "Default %"}
+                labels={"city_name": "City", "Net_Profit_Lakhs": "Net Profit (₹ Lakhs)", "Actual_Default_Pct": "Default %"}
             )
             fig_city.update_traces(texttemplate="%{text:,}", textposition="outside")
             st.plotly_chart(apply_dark_plotly(fig_city, 320), width="stretch")
 
     with col_b2:
         with st.container(border=True):
-            st.markdown("##### ðŸ›¡ï¸ Live Underwriting Decision Matrix")
+            st.markdown("##### 🛡️ Live Underwriting Decision Matrix")
             outcome_df = pd.DataFrame({
                 "Outcome": ["Approved Good (TN)", "Blocked Default (TP)", "Rejected Good (FP)", "Missed Default (FN)"],
                 "Count": [tn, tp, fp, fn]
@@ -770,12 +770,12 @@ with tab2:
         "late_payments_12m": "Late Payments in 12M (Raw)",
         "inquiries_6m": "Hard Credit Inquiries in 6M (Raw)",
         "inquiry_velocity_idx": "Credit Inquiry Velocity Index [Auto-Derived]",
-        "annual_income_lakhs": "Annual Income â‚¹ Lakhs (Raw)",
-        "net_disposable_lakhs": "Net Annual Disposable Income â‚¹ Lakhs [Auto-Derived]",
-        "loan_amount_lakhs": "Requested Loan â‚¹ Lakhs (Raw)",
-        "estimated_emi_k": "Estimated Monthly EMI â‚¹k [Auto-Derived]",
+        "annual_income_lakhs": "Annual Income ₹ Lakhs (Raw)",
+        "net_disposable_lakhs": "Net Annual Disposable Income ₹ Lakhs [Auto-Derived]",
+        "loan_amount_lakhs": "Requested Loan ₹ Lakhs (Raw)",
+        "estimated_emi_k": "Estimated Monthly EMI ₹k [Auto-Derived]",
         "age": "Applicant Age in Years (Raw)",
-        "unit_net_profit_inr": "Account Net Profit Contribution â‚¹ [Live Policy Output]"
+        "unit_net_profit_inr": "Account Net Profit Contribution ₹ [Live Policy Output]"
     }
 
     sel_col = st.selectbox(
@@ -787,7 +787,7 @@ with tab2:
     c_left, c_right = st.columns(2, gap="medium")
     with c_left:
         with st.container(border=True):
-            st.markdown(f"##### ðŸ“Š Live Distribution by Policy Decision: `{sel_col}`")
+            st.markdown(f"##### 📊 Live Distribution by Policy Decision: `{sel_col}`")
             fig_dist = px.histogram(
                 filtered_df, x=sel_col, color="policy_decision", barmode="overlay", nbins=35,
                 color_discrete_map={"Approved": "#10B981", "Rejected / Flagged": "#EF4444"},
@@ -797,7 +797,7 @@ with tab2:
 
     with c_right:
         with st.container(border=True):
-            st.markdown(f"##### ðŸ“ˆ Actual Default % vs. Model Risk % Across Deciles of `{sel_col}`")
+            st.markdown(f"##### 📈 Actual Default % vs. Model Risk % Across Deciles of `{sel_col}`")
             temp_df = filtered_df[[sel_col, "actual_default", "default_prob"]].copy()
             temp_df["Decile"] = pd.qcut(temp_df[sel_col], q=8, duplicates="drop").astype(str)
             decile_grp = temp_df.groupby("Decile", observed=False, as_index=False).agg(
@@ -821,7 +821,7 @@ with tab2:
     g1, g2, g3 = st.columns(3, gap="medium")
     with g1:
         with st.container(border=True):
-            st.markdown("##### ðŸ“£ Acquisition Channel Approval vs. Default %")
+            st.markdown("##### 📣 Acquisition Channel Approval vs. Default %")
             ch_df = filtered_df.groupby("acquisition_channel", as_index=False).agg(
                 Approval_Pct=("policy_decision", lambda s: round((s == "Approved").mean() * 100, 1)),
                 Default_Pct=("actual_default", lambda s: round(s.mean() * 100, 1))
@@ -834,7 +834,7 @@ with tab2:
 
     with g2:
         with st.container(border=True):
-            st.markdown("##### ðŸ‘¥ Customer Segment Net Profit (â‚¹ Lakhs)")
+            st.markdown("##### 👥 Customer Segment Net Profit (₹ Lakhs)")
             seg_df = filtered_df.groupby("customer_segment", as_index=False).agg(
                 Net_Profit_Lakhs=("unit_net_profit_inr", lambda s: round(s.sum() / 1e5, 2)),
                 Avg_CIBIL=("credit_score", "mean")
@@ -843,13 +843,13 @@ with tab2:
                 seg_df, x="customer_segment", y="Net_Profit_Lakhs", text="Net_Profit_Lakhs",
                 color="customer_segment", color_discrete_sequence=["#10B981", "#38BDF8", "#F59E0B", "#A78BFA"]
             )
-            fig_seg.update_traces(texttemplate="â‚¹%{text:.1f}L", textposition="outside")
+            fig_seg.update_traces(texttemplate="₹%{text:.1f}L", textposition="outside")
             fig_seg.update_layout(showlegend=False)
             st.plotly_chart(apply_dark_plotly(fig_seg, 290), width="stretch")
 
     with g3:
         with st.container(border=True):
-            st.markdown("##### ðŸ—ºï¸ State Ã— Product Default Risk Heatmap (%)")
+            st.markdown("##### 🗺️ State × Product Default Risk Heatmap (%)")
             piv = filtered_df.pivot_table(
                 index="state", columns="product_line", values="actual_default", aggfunc="mean"
             ) * 100
@@ -862,7 +862,7 @@ with tab2:
     g4, g5, g6 = st.columns(3, gap="medium")
     with g4:
         with st.container(border=True):
-            st.markdown("##### â° Late Payments (12M) Default Escalation")
+            st.markdown("##### ⏰ Late Payments (12M) Default Escalation")
             lp_df = filtered_df.groupby("late_payments_12m", as_index=False).agg(
                 Default_Pct=("actual_default", lambda s: round(s.mean() * 100, 1)),
                 Count=("applicant_id", "count")
@@ -874,7 +874,7 @@ with tab2:
 
     with g5:
         with st.container(border=True):
-            st.markdown("##### ðŸ§® Auto-FOIR (EMI Burden %) vs. DTI Risk")
+            st.markdown("##### 🧮 Auto-FOIR (EMI Burden %) vs. DTI Risk")
             sample_sc = filtered_df.sample(min(1000, len(filtered_df)), random_state=42)
             fig_sc = px.scatter(
                 sample_sc, x="debt_to_income_ratio", y="emi_to_income_pct",
@@ -886,7 +886,7 @@ with tab2:
 
     with g6:
         with st.container(border=True):
-            st.markdown("##### ðŸ’µ Auto-Disposable Income vs. Outcome")
+            st.markdown("##### 💵 Auto-Disposable Income vs. Outcome")
             disp_df = filtered_df.copy()
             disp_df["Outcome"] = np.where(disp_df["actual_default"] == 1, "Defaulted", "Repaid")
             fig_box = px.box(
@@ -917,8 +917,8 @@ with tab3:
             credit_score = st.slider("CIBIL / Credit Score", min_value=450, max_value=880, value=725)
 
         with c3:
-            annual_income_lakhs = st.number_input("Annual Income (â‚¹ Lakhs)", min_value=1.0, max_value=150.0, value=14.0, step=0.5)
-            loan_amount_lakhs = st.number_input("Requested Loan (â‚¹ Lakhs)", min_value=0.5, max_value=60.0, value=3.5, step=0.5)
+            annual_income_lakhs = st.number_input("Annual Income (₹ Lakhs)", min_value=1.0, max_value=150.0, value=14.0, step=0.5)
+            loan_amount_lakhs = st.number_input("Requested Loan (₹ Lakhs)", min_value=0.5, max_value=60.0, value=3.5, step=0.5)
             credit_utilization_pct = st.slider("Credit Utilization (%)", min_value=1.0, max_value=99.0, value=30.0, step=1.0)
 
         with c4:
@@ -951,17 +951,17 @@ with tab3:
 
     k1, k2, k3, k4, k5, k6 = st.columns(6)
     k1.metric("Default Risk", f"{default_prob * 100:.1f}%", delta=f"{(default_prob - active_threshold)*100:+.1f}% vs Cutoff", delta_color="inverse")
-    k2.metric("Expected Loan EV", f"â‚¹{expected_ev:,.0f}")
+    k2.metric("Expected Loan EV", f"₹{expected_ev:,.0f}")
     k3.metric("Auto-DTI Ratio", f"{processed_input['debt_to_income_ratio'].iloc[0]:.2f}x")
-    k4.metric("Est. Monthly EMI", f"â‚¹{processed_input['estimated_emi_k'].iloc[0]:.1f}k")
+    k4.metric("Est. Monthly EMI", f"₹{processed_input['estimated_emi_k'].iloc[0]:.1f}k")
     k5.metric("Auto-FOIR Burden", f"{processed_input['emi_to_income_pct'].iloc[0]:.1f}%")
-    k6.metric("Disposable Income", f"â‚¹{processed_input['net_disposable_lakhs'].iloc[0]:.2f}L")
+    k6.metric("Disposable Income", f"₹{processed_input['net_disposable_lakhs'].iloc[0]:.2f}L")
 
     if is_rejected:
         st.markdown(
             f"""
             <div class="decision-reject">
-                ðŸš¨ <strong>DECISION: REJECT / ROUTE TO MANUAL UNDERWRITING</strong> â€”
+                🚨 <strong>DECISION: REJECT / ROUTE TO MANUAL UNDERWRITING</strong> —
                 Predicted default probability (<strong>{default_prob:.1%}</strong>) exceeds SafePay's risk threshold (<strong>{active_threshold:.1%}</strong>).
             </div>
             """,
@@ -971,9 +971,9 @@ with tab3:
         st.markdown(
             f"""
             <div class="decision-approve">
-                âœ… <strong>DECISION: AUTO-APPROVE CREDIT LINE</strong> â€”
+                ✅ <strong>DECISION: AUTO-APPROVE CREDIT LINE</strong> —
                 Predicted default probability (<strong>{default_prob:.1%}</strong>) is within SafePay's risk threshold (<strong>{active_threshold:.1%}</strong>).
-                Expected Net Profit: <strong>â‚¹{expected_ev:,.0f}</strong>.
+                Expected Net Profit: <strong>₹{expected_ev:,.0f}</strong>.
             </div>
             """,
             unsafe_allow_html=True
@@ -1019,12 +1019,12 @@ with tab4:
 
     mode = st.radio(
         "Select Data Source:",
-        ["ðŸ“Š Explore Live Filtered SafePay Portfolio (With All 8 Auto-Derived Columns)", "ðŸ“¤ Upload Custom Applicant CSV"],
+        ["📊 Explore Live Filtered SafePay Portfolio (With All 8 Auto-Derived Columns)", "📤 Upload Custom Applicant CSV"],
         horizontal=True
     )
 
     with st.container(border=True):
-        if mode.startswith("ðŸ“¤"):
+        if mode.startswith("📤"):
             uploaded_file = st.file_uploader("Upload Applicant CSV", type=["csv"])
             if uploaded_file is not None:
                 raw_batch = pd.read_csv(uploaded_file)
@@ -1048,7 +1048,7 @@ with tab4:
 
         csv_bytes = scored_batch.to_csv(index=False).encode("utf-8")
         st.download_button(
-            label="â¬‡ï¸ Download Full Scored Portfolio CSV (With All Automated Columns)",
+            label="⬇️ Download Full Scored Portfolio CSV (With All Automated Columns)",
             data=csv_bytes,
             file_name="safepay_12k_enterprise_portfolio.csv",
             mime="text/csv"
