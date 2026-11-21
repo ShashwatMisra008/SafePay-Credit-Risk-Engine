@@ -20,94 +20,177 @@ except ImportError:
     HAS_XGB = False
 
 # -----------------------------------------------------------------------------
-# PAGE CONFIG & CUSTOM FINTECH CSS
+# PAGE CONFIGURATION
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="SafePay Bank | Credit Risk & Underwriting Engine",
+    page_title="SafePay Bank | Institutional Credit Risk Engine",
     page_icon="🏦",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
+# -----------------------------------------------------------------------------
+# CORPORATE DARK FINTECH CSS (BLOOMBERG / RAZORPAYX / STRIPE RADAR INSPIRED)
+# -----------------------------------------------------------------------------
 st.markdown(
     """
     <style>
-        /* Fix top padding so hero banner is never clipped */
-        .block-container {
-            padding-top: 1.6rem !important;
-            padding-bottom: 2rem !important;
+        /* Global Dark Slate Canvas */
+        .stApp {
+            background-color: #0B1120;
+            color: #F8FAFC;
         }
-        /* Executive FinTech Hero Banner */
+        .block-container {
+            padding-top: 1.5rem !important;
+            padding-bottom: 2.5rem !important;
+            max-width: 1400px;
+        }
+        /* Top Header Bar Styling */
+        header[data-testid="stHeader"] {
+            background-color: rgba(11, 17, 32, 0.85);
+            backdrop-filter: blur(8px);
+        }
+        /* Sidebar Dark FinTech Panel */
+        section[data-testid="stSidebar"] {
+            background-color: #0F172A !important;
+            border-right: 1px solid #1E293B;
+        }
+        section[data-testid="stSidebar"] * {
+            color: #E2E8F0;
+        }
+        /* Executive Hero Banner */
         .hero-banner {
-            background: linear-gradient(135deg, #0F2537 0%, #1B4965 60%, #2C7DA0 100%);
-            padding: 1.5rem 2rem;
-            border-radius: 12px;
-            color: #FFFFFF;
-            margin-bottom: 1.2rem;
-            box-shadow: 0 4px 14px rgba(15, 37, 55, 0.15);
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 55%, #064E3B 100%);
+            border: 1px solid #334155;
+            padding: 1.65rem 2rem;
+            border-radius: 14px;
+            color: #F8FAFC;
+            margin-bottom: 1.4rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45);
+        }
+        .hero-kicker {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            color: #34D399;
+            margin-bottom: 0.35rem;
         }
         .hero-title {
-            font-size: 1.85rem;
-            font-weight: 700;
-            margin: 0 0 0.35rem 0;
-            letter-spacing: -0.3px;
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin: 0 0 0.4rem 0;
+            color: #FFFFFF;
+            letter-spacing: -0.4px;
         }
         .hero-subtitle {
             font-size: 0.95rem;
-            color: #E0F2FE;
+            color: #CBD5E1;
             margin: 0;
+            line-height: 1.5;
         }
         .badge-row {
-            margin-top: 0.75rem;
+            margin-top: 0.95rem;
             display: flex;
-            gap: 0.5rem;
+            gap: 0.55rem;
             flex-wrap: wrap;
         }
         .tech-badge {
-            background: rgba(255, 255, 255, 0.14);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 0.2rem 0.65rem;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 0.25rem 0.75rem;
             border-radius: 999px;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 600;
-            color: #FFFFFF;
+            color: #6EE7B7;
         }
-        /* Metric Card Styling */
-        div[data-testid="stMetric"] {
-            background-color: #F8FAFC;
-            border: 1px solid #E2E8F0;
-            padding: 0.85rem 1rem;
+        /* Navigation Tabs */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 0.5rem;
+            background-color: #111827;
+            padding: 0.4rem;
             border-radius: 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            border: 1px solid #1E293B;
+        }
+        .stTabs [data-baseweb="tab"] {
+            height: 2.6rem;
+            border-radius: 8px;
+            padding: 0 1.2rem;
+            color: #94A3B8;
+            font-weight: 600;
+        }
+        .stTabs [aria-selected="true"] {
+            background-color: #1E293B !important;
+            color: #10B981 !important;
+            border: 1px solid #334155;
+        }
+        /* Dark Elevated Cards & Borders */
+        div[data-testid="stVerticalBlockBorderWrapper"] {
+            background-color: #111827;
+            border: 1px solid #1E293B !important;
+            border-radius: 12px !important;
+            padding: 0.5rem;
+        }
+        /* Metric Cards */
+        div[data-testid="stMetric"] {
+            background: linear-gradient(180deg, #111827 0%, #0F172A 100%);
+            border: 1px solid #1E293B;
+            padding: 1rem 1.15rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+        div[data-testid="stMetricLabel"] {
+            color: #94A3B8 !important;
+            font-size: 0.82rem !important;
+            font-weight: 600 !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        div[data-testid="stMetricValue"] {
+            color: #F8FAFC !important;
+            font-size: 1.65rem !important;
+            font-weight: 700 !important;
         }
         /* Decision Banners */
         .decision-approve {
-            background: linear-gradient(90deg, #ECFDF5 0%, #D1FAE5 100%);
-            border-left: 5px solid #059669;
-            padding: 1rem 1.25rem;
-            border-radius: 8px;
-            color: #064E3B;
-            font-size: 1rem;
-            margin: 0.75rem 0 1.25rem 0;
+            background: linear-gradient(90deg, rgba(6, 78, 59, 0.65) 0%, rgba(16, 185, 129, 0.15) 100%);
+            border: 1px solid #059669;
+            border-left: 6px solid #10B981;
+            padding: 1.05rem 1.35rem;
+            border-radius: 10px;
+            color: #ECFDF5;
+            font-size: 0.98rem;
+            margin: 0.85rem 0 1.35rem 0;
         }
         .decision-reject {
-            background: linear-gradient(90deg, #FEF2F2 0%, #FEE2E2 100%);
-            border-left: 5px solid #DC2626;
-            padding: 1rem 1.25rem;
-            border-radius: 8px;
-            color: #7F1D1D;
-            font-size: 1rem;
-            margin: 0.75rem 0 1.25rem 0;
+            background: linear-gradient(90deg, rgba(127, 29, 29, 0.65) 0%, rgba(220, 38, 38, 0.15) 100%);
+            border: 1px solid #DC2626;
+            border-left: 6px solid #EF4444;
+            padding: 1.05rem 1.35rem;
+            border-radius: 10px;
+            color: #FEF2F2;
+            font-size: 0.98rem;
+            margin: 0.85rem 0 1.35rem 0;
         }
         /* Sidebar Unit Economics Box */
         .econ-card {
-            background-color: #F1F5F9;
-            border: 1px solid #CBD5E1;
-            border-radius: 8px;
-            padding: 0.85rem;
-            font-size: 0.85rem;
-            line-height: 1.55;
-            color: #1E293B;
+            background-color: #111827;
+            border: 1px solid #1E293B;
+            border-radius: 10px;
+            padding: 0.95rem;
+            font-size: 0.84rem;
+            line-height: 1.65;
+            color: #CBD5E1;
+            margin-top: 0.75rem;
+        }
+        .section-heading {
+            font-size: 1.12rem;
+            font-weight: 700;
+            color: #E2E8F0;
+            margin: 1.1rem 0 0.6rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
     </style>
     """,
@@ -235,40 +318,69 @@ def load_model_bundle():
 
 
 def make_risk_gauge(prob: float, threshold: float) -> go.Figure:
-    """Renders an executive Plotly speedometer gauge for borrower default risk."""
-    bar_color = "#DC2626" if prob >= threshold else "#059669"
+    """Dark-theme institutional risk gauge with clean tick spacing."""
+    bar_color = "#EF4444" if prob >= threshold else "#10B981"
     fig = go.Figure(
         go.Indicator(
             mode="gauge+number+delta",
             value=round(prob * 100, 1),
-            number={"suffix": "%", "font": {"size": 34, "color": "#0F2537"}},
+            number={"suffix": "%", "font": {"size": 38, "color": "#F8FAFC"}},
             delta={
                 "reference": round(threshold * 100, 1),
-                "increasing": {"color": "#DC2626"},
-                "decreasing": {"color": "#059669"},
-                "suffix": "% vs Cutoff"
+                "increasing": {"color": "#F87171"},
+                "decreasing": {"color": "#34D399"},
+                "suffix": "% vs Cutoff",
+                "font": {"size": 14}
             },
-            title={"text": "Default Probability Score", "font": {"size": 15, "color": "#334155"}},
+            title={"text": "BORROWER DEFAULT PROBABILITY", "font": {"size": 13, "color": "#94A3B8"}},
             gauge={
-                "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#64748B"},
-                "bar": {"color": bar_color, "thickness": 0.28},
-                "bgcolor": "white",
+                "axis": {
+                    "range": [0, 100],
+                    "tickmode": "array",
+                    "tickvals": [0, 25, 50, 75, 100],
+                    "ticktext": ["0%", "25%", "50%", "75%", "100%"],
+                    "tickwidth": 1,
+                    "tickcolor": "#64748B",
+                    "tickfont": {"color": "#94A3B8", "size": 11}
+                },
+                "bar": {"color": bar_color, "thickness": 0.30},
+                "bgcolor": "#0F172A",
                 "borderwidth": 1,
-                "bordercolor": "#CBD5E1",
+                "bordercolor": "#334155",
                 "steps": [
-                    {"range": [0, threshold * 100], "color": "#ECFDF5"},
-                    {"range": [threshold * 100, 100], "color": "#FEF2F2"}
+                    {"range": [0, threshold * 100], "color": "rgba(16, 185, 129, 0.16)"},
+                    {"range": [threshold * 100, 100], "color": "rgba(239, 68, 68, 0.16)"}
                 ],
                 "threshold": {
-                    "line": {"color": "#0F2537", "width": 4},
-                    "thickness": 0.8,
+                    "line": {"color": "#FBBF24", "width": 4},
+                    "thickness": 0.85,
                     "value": threshold * 100
                 }
             }
         )
     )
-    fig.update_layout(height=280, margin=dict(l=20, r=20, t=45, b=10), paper_bgcolor="rgba(0,0,0,0)")
+    fig.update_layout(
+        height=310,
+        margin=dict(l=25, r=25, t=45, b=15),
+        paper_bgcolor="rgba(0,0,0,0)",
+        font={"color": "#F8FAFC"}
+    )
     return fig
+
+
+def style_shap_dark(fig):
+    """Restyles Matplotlib SHAP waterfall figure to match the Dark Slate theme."""
+    fig.patch.set_facecolor("#111827")
+    for ax in fig.axes:
+        ax.set_facecolor("#111827")
+        ax.tick_params(colors="#CBD5E1", labelsize=9)
+        ax.xaxis.label.set_color("#94A3B8")
+        ax.yaxis.label.set_color("#CBD5E1")
+        for spine in ax.spines.values():
+            spine.set_edgecolor("#334155")
+        for text in ax.texts:
+            text.set_color("#F8FAFC")
+            text.set_fontsize(8.5)
 
 
 bundle = load_model_bundle()
@@ -281,11 +393,11 @@ metrics = bundle.get("metrics", {})
 # SIDEBAR: POLICY THRESHOLD & UNIT ECONOMICS
 # -----------------------------------------------------------------------------
 with st.sidebar:
-    st.markdown("## 🏦 SafePay Risk Engine")
-    st.caption("Automated Credit Underwriting & SHAP")
+    st.markdown("### 🏦 SafePay Risk Console")
+    st.caption("Institutional Credit & Fraud Engine v1.0")
     st.divider()
 
-    st.markdown("### ⚙️ Decision Policy Threshold")
+    st.markdown("#### ⚙️ Decision Policy Threshold")
     if "cutoff_slider" not in st.session_state:
         st.session_state.cutoff_slider = round(float(default_optimal_cutoff), 2)
 
@@ -305,39 +417,42 @@ with st.sidebar:
     st.markdown(
         f"""
         <div class="econ-card">
-            <strong>🎯 Profit-Optimal Cutoff:</strong> <code>{default_optimal_cutoff:.2f}</code><br><br>
-            <strong>💰 Unit Economics (INR):</strong><br>
-            • Good Loan Repaid (TN): <span style="color:#059669;font-weight:600;">+₹12,000</span><br>
-            • Good Loan Rejected (FP): <span style="color:#D97706;font-weight:600;">-₹4,000</span><br>
-            • Default Approved (FN): <span style="color:#DC2626;font-weight:600;">-₹65,000</span>
+            <div style="color:#34D399;font-weight:700;margin-bottom:6px;">
+                🎯 Profit-Optimal Cutoff: <code>{default_optimal_cutoff:.2f}</code>
+            </div>
+            <div style="font-weight:700;color:#F8FAFC;margin-bottom:4px;">💰 Unit Economics (INR):</div>
+            <div>• Repaid Loan (TN): <span style="color:#34D399;font-weight:700;">+₹12,000</span></div>
+            <div>• Rejected Good (FP): <span style="color:#FBBF24;font-weight:700;">-₹4,000</span></div>
+            <div>• Approved Default (FN): <span style="color:#F87171;font-weight:700;">-₹65,000</span></div>
         </div>
         """,
         unsafe_allow_html=True
     )
 
     st.divider()
-    st.markdown("### 📊 Validated Test Metrics")
+    st.markdown("#### 📊 Validated Test Metrics")
     col_m1, col_m2 = st.columns(2)
     col_m1.metric("PR-AUC", f"{metrics.get('test_pr_auc', 0.0):.3f}")
     col_m2.metric("ROC-AUC", f"{metrics.get('test_roc_auc', 0.0):.3f}")
 
 
 # -----------------------------------------------------------------------------
-# HERO BANNER (FIXES CLIPPED TITLE)
+# HERO BANNER
 # -----------------------------------------------------------------------------
 st.markdown(
     """
     <div class="hero-banner">
-        <div class="hero-title">🏦 SafePay Bank — Credit Default & Underwriting Engine</div>
+        <div class="hero-kicker">SAFEPAY BANK • INSTITUTIONAL RISK INTELLIGENCE</div>
+        <div class="hero-title">🏦 Credit Default & Automated Underwriting Engine</div>
         <p class="hero-subtitle">
             Real-time borrower risk scoring powered by a leakage-free Scikit-Learn &amp; Gradient Boosting pipeline,
             cost-matrix threshold optimization, and regulatory SHAP explainability.
         </p>
         <div class="badge-row">
-            <span class="tech-badge">XGBoost / GBDT</span>
-            <span class="tech-badge">Cost-Matrix Calibrated</span>
-            <span class="tech-badge">SHAP Explainable AI</span>
-            <span class="tech-badge">Leakage-Free Pipeline</span>
+            <span class="tech-badge">⚡ XGBoost / GBDT</span>
+            <span class="tech-badge">💰 Cost-Matrix Calibrated</span>
+            <span class="tech-badge">🔍 SHAP Explainable AI</span>
+            <span class="tech-badge">🛡️ Leakage-Free Pipeline</span>
         </div>
     </div>
     """,
@@ -355,10 +470,10 @@ tab1, tab2, tab3 = st.tabs([
 # TAB 1: REAL-TIME SINGLE APPLICANT SCORING + GAUGE + SHAP WATERFALL
 # -----------------------------------------------------------------------------
 with tab1:
-    st.markdown("#### 1. Applicant Financial & Credit Profile")
+    st.markdown('<div class="section-heading">1. Applicant Financial & Credit Profile</div>', unsafe_allow_html=True)
 
     with st.container(border=True):
-        c1, c2, c3 = st.columns(3)
+        c1, c2, c3 = st.columns(3, gap="large")
         with c1:
             age = st.number_input("Applicant Age (Years)", min_value=21, max_value=70, value=32)
             employment_type = st.selectbox("Employment Type", ["Salaried", "Self-Employed", "Freelancer"])
@@ -391,7 +506,7 @@ with tab1:
     is_rejected = default_prob >= active_threshold
     expected_ev = ((1 - default_prob) * 12000) - (default_prob * 65000)
 
-    st.markdown("#### 2. Automated Underwriting Decision & Risk Telemetry")
+    st.markdown('<div class="section-heading">2. Automated Underwriting Decision & Risk Telemetry</div>', unsafe_allow_html=True)
 
     k1, k2, k3, k4 = st.columns(4)
     k1.metric("Predicted Default Risk", f"{default_prob * 100:.2f}%", delta=f"{(default_prob - active_threshold)*100:+.2f}% vs Cutoff", delta_color="inverse")
@@ -421,13 +536,13 @@ with tab1:
             unsafe_allow_html=True
         )
 
-    # Side-by-Side Risk Gauge & SHAP Waterfall
-    st.markdown("#### 3. Risk Gauge & Regulatory SHAP Explainability")
-    g_col, s_col = st.columns([1.05, 1.45])
+    st.markdown('<div class="section-heading">3. Risk Gauge & Regulatory SHAP Explainability</div>', unsafe_allow_html=True)
+    g_col, s_col = st.columns([1.0, 1.5], gap="medium")
 
     with g_col:
         with st.container(border=True):
             st.plotly_chart(make_risk_gauge(default_prob, active_threshold), use_container_width=True)
+            st.caption("Yellow marker indicates SafePay's active policy cutoff threshold.")
 
     with s_col:
         with st.container(border=True):
@@ -445,6 +560,7 @@ with tab1:
 
             fig, ax = plt.subplots(figsize=(7.5, 3.6))
             shap.plots.waterfall(shap_exp[0], show=False)
+            style_shap_dark(fig)
             plt.tight_layout()
             st.pyplot(fig)
 
@@ -453,8 +569,8 @@ with tab1:
 # TAB 2: BATCH PORTFOLIO SCORING (CSV UPLOAD)
 # -----------------------------------------------------------------------------
 with tab2:
-    st.markdown("#### Batch Credit Application Scoring")
-    st.markdown("Upload a CSV file of loan applicants or test using the pre-loaded sample batch below.")
+    st.markdown('<div class="section-heading">Batch Credit Application Scoring</div>', unsafe_allow_html=True)
+    st.markdown("Upload a CSV file of loan applicants or test using the pre-loaded sample portfolio below.")
 
     sample_batch = pd.DataFrame([
         {"age": 34, "annual_income_lakhs": 18.5, "loan_amount_lakhs": 3.0, "credit_score": 795,
@@ -471,44 +587,56 @@ with tab2:
          "employment_type": "Salaried", "city_tier": "Tier-2"}
     ])
 
-    uploaded_file = st.file_uploader("Upload Applicant CSV", type=["csv"])
-    batch_df = pd.read_csv(uploaded_file) if uploaded_file is not None else sample_batch
+    with st.container(border=True):
+        uploaded_file = st.file_uploader("Upload Applicant CSV", type=["csv"])
+        batch_df = pd.read_csv(uploaded_file) if uploaded_file is not None else sample_batch
 
-    scored_batch = engineer_features(batch_df)
-    batch_probs = pipeline.predict_proba(scored_batch)[:, 1]
+        scored_batch = engineer_features(batch_df)
+        batch_probs = pipeline.predict_proba(scored_batch)[:, 1]
 
-    scored_batch["default_risk_pct"] = (batch_probs * 100).round(2)
-    scored_batch["credit_decision"] = np.where(batch_probs >= active_threshold, "🚨 REJECT / REVIEW", "✅ AUTO-APPROVE")
+        scored_batch["default_risk_pct"] = (batch_probs * 100).round(2)
+        scored_batch["credit_decision"] = np.where(batch_probs >= active_threshold, "🚨 REJECT / REVIEW", "✅ AUTO-APPROVE")
 
-    b1, b2, b3 = st.columns(3)
-    b1.metric("Total Applicants", len(scored_batch))
-    b2.metric("Auto-Approved", int((batch_probs < active_threshold).sum()))
-    b3.metric("Flagged / Rejected", int((batch_probs >= active_threshold).sum()))
+        b1, b2, b3 = st.columns(3)
+        b1.metric("Total Applicants", len(scored_batch))
+        b2.metric("Auto-Approved", int((batch_probs < active_threshold).sum()))
+        b3.metric("Flagged / Rejected", int((batch_probs >= active_threshold).sum()))
 
-    st.dataframe(scored_batch, use_container_width=True)
+        st.dataframe(scored_batch, use_container_width=True)
 
-    csv_bytes = scored_batch.to_csv(index=False).encode("utf-8")
-    st.download_button(
-        label="⬇️ Download Scored Decisions CSV",
-        data=csv_bytes,
-        file_name="safepay_scored_applicants.csv",
-        mime="text/csv"
-    )
+        csv_bytes = scored_batch.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            label="⬇️ Download Scored Decisions CSV",
+            data=csv_bytes,
+            file_name="safepay_scored_applicants.csv",
+            mime="text/csv"
+        )
 
 
 # -----------------------------------------------------------------------------
 # TAB 3: ARCHITECTURE & UNIT ECONOMICS
 # -----------------------------------------------------------------------------
 with tab3:
-    st.markdown("#### End-to-End Machine Learning & Financial Calibration Design")
-    with st.container(border=True):
-        st.markdown(
-            """
-            1. **Multicollinearity Governance (VIF):** Removed `monthly_income_k` ($VIF > 1000$) to eliminate collinearity with `annual_income_lakhs`.
-            2. **Leakage-Free Preprocessing:** `ColumnTransformer` (`StandardScaler` + `OneHotEncoder`) is encapsulated inside `sklearn.pipeline.Pipeline` so scaling parameters are learned strictly from training folds.
-            3. **Class Imbalance Handling:** Benchmarked `class_weight="balanced"`, `SMOTE` (`imblearn.pipeline.Pipeline`), and cost-sensitive `scale_pos_weight` in XGBoost/LightGBM using **PR-AUC (`average_precision`)**.
-            4. **Financial Cost-Matrix Thresholding:** Replaces the default `0.50` probability cutoff with the threshold maximizing expected Net Bank Profit:
-               $$\\text{Net Profit} = (\\text{TN} \\times ₹12,000) - (\\text{FP} \\times ₹4,000) - (\\text{FN} \\times ₹65,000)$$
-            5. **Regulatory Explainability:** Uses `shap.TreeExplainer` to provide exact feature-level attributions for every credit decision.
-            """
-        )
+    st.markdown('<div class="section-heading">End-to-End Machine Learning & Financial Calibration Design</div>', unsafe_allow_html=True)
+
+    a1, a2 = st.columns(2, gap="medium")
+    with a1:
+        with st.container(border=True):
+            st.markdown("#### 🛡️ Statistical & ML Pipeline Guardrails")
+            st.markdown(
+                """
+                - **Multicollinearity Governance (VIF):** Removed `monthly_income_k` ($VIF > 1000$) to eliminate collinearity with `annual_income_lakhs`.
+                - **Leakage-Free Preprocessing:** `ColumnTransformer` (`StandardScaler` + `OneHotEncoder`) is encapsulated inside `sklearn.pipeline.Pipeline` so scaling parameters are learned strictly from training folds.
+                - **Class Imbalance Mitigation:** Benchmarked `class_weight="balanced"`, `SMOTE` (`imblearn.pipeline.Pipeline`), and cost-sensitive `scale_pos_weight` using **PR-AUC (`average_precision`)**.
+                """
+            )
+    with a2:
+        with st.container(border=True):
+            st.markdown("#### 💰 Financial Cost-Matrix & Regulatory AI")
+            st.markdown(
+                """
+                - **Profit-Optimal Cutoff:** Replaces the default `0.50` probability threshold with the cutoff maximizing Net Bank Profit:
+                  $$\\text{Net Profit} = (\\text{TN} \\times ₹12,000) - (\\text{FP} \\times ₹4,000) - (\\text{FN} \\times ₹65,000)$$
+                - **Explainable Underwriting:** Uses `shap.TreeExplainer` to generate auditable, feature-level risk attributions for every single borrower decision.
+                """
+            )
